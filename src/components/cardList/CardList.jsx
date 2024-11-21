@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 
-import useAPI from '../../api/useAPI'; /// тут API заменил на useAPI
+import useAPI from '../../hooks'; /// тут API заменил на useAPI
 import Spinner from '../uI/spinner/Spinner';
-import Error from '../uI/error/Error';
-import PaginationUI from '../uI/pagination/PaginationUI';
-import { APIConsumer } from '../../api-context/API-Context';
+import Error from '../uI/error';
+import PaginationUI from '../uI/pagination';
+import { APIConsumer } from '../../api-context/API-Context'; // тут проблема
 
-import SearchInput from '../searchInput/SearchInput'; // ипортировал зачем не знаю
 
-import CardItem from './cardItem/CardItem';
+import CardItem from './cardItem';
 
 import './CardList.scss';
 
