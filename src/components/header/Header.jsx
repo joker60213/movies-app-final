@@ -28,4 +28,3 @@ const Header = ({ onChangeTabs }) => {
 }
 
 export default Header
-// готово +

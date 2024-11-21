@@ -15,4 +15,3 @@ const Main = ({ query, searchMovies, tab, guestId }) => {
 }
 
 export default Main
-// готово + 

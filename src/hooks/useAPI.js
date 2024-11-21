@@ -23,7 +23,7 @@ const useAPI = () => {
             return await response.json();
         }
 
-        throw new Error(`Could not fetch data to ${mainUrl}${url}`);
+        throw new Error(`Не удалость получить данные ${mainUrl}${url}`);
     }, [mainUrl]);
 
     const postRating = async (guestId, movieId, value) => {
@@ -45,7 +45,7 @@ const useAPI = () => {
             return await response.json();
         }
 
-        throw new Error('Could not post data rating');
+        throw new Error('Не удалось опубликовать данные рейтинга');
     };
 
     const deleteRating = async (guestId, movieId) => {
@@ -66,7 +66,7 @@ const useAPI = () => {
             return await response.json();
         }
 
-        throw new Error('Could not delete data rating');
+        throw new Error('Не удалось удалить данные рейтинга');
     };
 
     const getMoviesOnQuery = async (query, page = 1, adult = false, language = 'en-US') => {
@@ -109,7 +109,7 @@ const useAPI = () => {
             }));
         }
 
-        throw new Error(`Could not fetch data to ${mainUrl}`);
+        throw new Error(`Не удалось получить данные ${mainUrl}`);
     };
 
     return {

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 
-import useAPI from '../../hooks'; /// тут API заменил на useAPI
-import Spinner from '../uI/spinner/Spinner';
-import Error from '../uI/error';
-import PaginationUI from '../uI/pagination';
-import { APIConsumer } from '../../api-context/API-Context'; // тут проблема
+import useAPI from '../../hooks'; 
+import Spinner from '../spinner/Spinner';
+import Error from '../error';
+import PaginationUI from '../pagination';
+import { APIConsumer } from '../../apiСontext/API-Context'; 
 
+import FetchRandomMovie from './FetchRandomMovie';
 
 import CardItem from './cardItem';
 
@@ -14,17 +15,17 @@ import './CardList.scss';
 
 const CardList = ({ query, guestId, tab }) => {
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // c фолс на тру
+  const [isLoading, setIsLoading] = useState(true); 
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('Type to search...');
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageRated, setCurrentPageRated] = useState(1);
-  const [totalItems, setTotalItems] = useState(1); // с 0 на 1
+  const [totalItems, setTotalItems] = useState(1); 
   const [ratingList, setRatingList] = useState([]);
 
-  const [randomMovie, setRandomMovie] = useState(null); // Новое состояние для случайного фильма
+  const [randomMovie, setRandomMovie] = useState(null); 
 
-  const api =  useAPI(); // тут API заменил на useAPI
+  const api =  useAPI(); 
 
   const onMoviesLoad = (movies) => {
     setMovies(movies);
@@ -64,7 +65,7 @@ const CardList = ({ query, guestId, tab }) => {
   const debounceGetMovies = useCallback(
     debounce((query, currentPage) => {
       setIsLoading(true);
-      setMessage('We are very sorry, but we have not found anything...');
+      setMessage('Нам очень жаль, но мы ничего не нашли');
       getMovies(query, currentPage);
     }, 1500),
     []
@@ -100,7 +101,7 @@ const CardList = ({ query, guestId, tab }) => {
 
   useEffect(() => {
     if (tab === 'Rated') {
-      setMessage('We are very sorry, but we have not found anything...');
+      setMessage('Нам очень жаль, но мы ничего не нашли');
       getMoviesWithRating(guestId, currentPageRated);
     }
     if (tab === 'Search') {
@@ -111,50 +112,13 @@ const CardList = ({ query, guestId, tab }) => {
   }, [query, currentPage, currentPageRated, tab, guestId, ratingList]);
 
 
-
-  
- // функция случайный фильм
- const fetchRandomMovie = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-       `https://api.themoviedb.org/3/discover/movie?api_key=64002571f8ed39931bd7ff706646bca4&language=en-US`
-  );
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-    const data = await response.json();
-  
-  // проверка
-  if (data.results.length > 0) {
-  const randomIndex = Math.floor(Math.random() * data.results.length);
-  const randomMovie = data.results[randomIndex];
-  
-  setRandomMovie(randomMovie); // Добавляем случайный фильм в массив
-  setMessage('Here is your random movie:');
-  } else {
-    throw new Error('No movies found');
-  }
-  } catch (error) {
-      setIsError(true);
-      setMessage('Error fetching movie: ' + error.message);
-  } finally {
-      setIsLoading(false);
-  }
-  };
-  
-  useEffect(() => {
-    fetchRandomMovie(); // вызов функс
-    }, []);
-
-
-  const errorView = isError ? <Error message="Oops. Something went wrong. Try again." type="error" /> : null;
+  const errorView = isError ? <Error message="Ой. Что-то пошло не так. Пробовать снова." type="error" /> : null;
   const spinner = isLoading && !isError ? <Spinner fontSize={60} /> : null;
   const current = tab === 'Search' ? currentPage : currentPageRated;
 
   const cardList = !isLoading && !isError ? (
     <CardListView
-      movies={[...movies, randomMovie].filter(Boolean)} // объедение рандомные фильмы и обычные
+      movies={[...movies, randomMovie].filter(Boolean)} 
       message={message}
       current={current}
       onChange={paginationOnChange}
@@ -168,6 +132,11 @@ const CardList = ({ query, guestId, tab }) => {
 
   return (
     <>
+       <FetchRandomMovie 
+        setRandomMovie={setRandomMovie} 
+        setMessage={setMessage} 
+        setIsError={setIsError} 
+        />
       {errorView}
       {spinner}
       {cardList}  
@@ -222,4 +191,3 @@ const CardListView = ({
 };
 
 export default CardList;
-// вроде ок

@@ -28,4 +28,3 @@ const SearchInput = ({ searchMovies }) => {
 };
 
 export default SearchInput;
-// готово + 

@@ -1,16 +1,16 @@
 import React, { useState, useEffect} from 'react'
 
-import './App.scss'
+
 
 import Main from '../main/Main'
 import Header from '../header/Header'
-import useAPI from '../../api/useAPI' // тут API заменил на useAPI
-import { APIProvider } from '../../api-context/API-Context'
-import Error from '../uI/error/Error'
+import useAPI from '../../hooks/useAPI' 
+import { APIProvider } from '../../apiСontext/API-Context'
+import Error from '../error/Error'
 
 
 const App = () => {
-  const api = useAPI(); // тут API заменил на useAPI
+  const api = useAPI();
 
   const [query, setQuery] = useState('');
   const [genres, setGenres] = useState([]);
@@ -56,10 +56,10 @@ const App = () => {
   useEffect(() => {
     getGuestId();
     getGenresList();
-  }, []); // Запускаем только один раз при монтировании
+  }, []);
 
   const appView = isError ? (
-    <Error message="Oops. Something went wrong. Try again." type="error" />
+    <Error message="Ой. Что-то пошло не так. Пробовать снова." type="error" />
   ) : (
     <APIProvider
       value={{ genres, postRating: api.postRating, deleteRating: api.deleteRating }}
@@ -78,4 +78,3 @@ const App = () => {
 };
 
 export default App;
-// готово +
